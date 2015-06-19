@@ -1,0 +1,22 @@
+#!/usr/bin/python2
+# coding: utf-8
+import time
+import tweepy as twitter
+import config
+
+hour = time.localtime().tm_hour % 12
+if hour == 0:
+	hour = 12
+
+sentence = "Tenho %d lágrima%s no canto do mostrador, %s nos Açores."
+
+if hour == 1:
+	sentence = sentence % (hour, "", "12 lágrimas")
+else:
+	sentence = sentence % (hour, "s", "menos uma lágrima")
+
+auth = twitter.OAuthHandler(config.consumer_key, config.consumer_secret)
+auth.set_access_token(config.access_token, config.access_token_secret)
+
+api = twitter.API(auth)
+api.update_status(status=sentence)
