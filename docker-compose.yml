@@ -1,0 +1,7 @@
+version: '3'
+services:
+  gustavo:
+    image: docker.pkg.github.com/afonsofgarcia/bigbongaclock/big-bonga-clock:2
+    env_file:
+      - gustavo.env
+    

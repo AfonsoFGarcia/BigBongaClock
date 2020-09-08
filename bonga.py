@@ -1,8 +1,6 @@
-#!/usr/bin/python2
-# coding: utf-8
 import time
 import tweepy as twitter
-import config
+import os
 
 superhour = time.localtime().tm_hour
 hour = superhour % 12
@@ -22,8 +20,13 @@ else:
 	else:
 		sentence = sentence % (hour, "s", "menos uma lágrima", ".")
 
-auth = twitter.OAuthHandler(config.consumer_key, config.consumer_secret)
-auth.set_access_token(config.access_token, config.access_token_secret)
+CONSUMER_KEY = os.getenv('CONSUMER_KEY')
+CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
+ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
+ACCESS_TOKEN_SECRET = os.getenv('ACCESS_TOKEN_SECRET')
+
+auth = twitter.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 api = twitter.API(auth)
 api.update_status(status=sentence)
