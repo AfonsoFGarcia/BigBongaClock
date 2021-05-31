@@ -3,5 +3,5 @@ services:
   big-bonga-clock:
     image: docker.pkg.github.com/afonsofgarcia/bigbongaclock/big-bonga-clock:2
     env_file:
-      - bonga.env
+      - .env
     
