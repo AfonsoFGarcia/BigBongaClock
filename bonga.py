@@ -1,6 +1,8 @@
 import time
-import tweepy as twitter
+from atproto import Client
+from atproto.exceptions import AtProtocolError
 import os
+import logging
 
 superhour = time.localtime().tm_hour
 hour = superhour % 12
@@ -20,13 +22,19 @@ else:
 	else:
 		sentence = sentence % (hour, "s", "menos uma lágrima", ".")
 
-CONSUMER_KEY = os.getenv('CONSUMER_KEY')
-CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
-ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
-ACCESS_TOKEN_SECRET = os.getenv('ACCESS_TOKEN_SECRET')
+tweeted = False
 
-auth = twitter.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+USERNAME = os.getenv('BLUESKY_USERNAME')
+PASSWORD = os.getenv('BLUESKY_PASSWORD')
 
-api = twitter.API(auth)
-api.update_status(status=sentence)
+while not tweeted:
+	try:		
+		client = Client()
+		client.login(USERNAME, PASSWORD)
+
+		client.send_post(text=sentence)
+		
+		tweeted = True
+	except AtProtocolError as e:
+		logging.error("Error posting to BlueSky", exc_info=e)
+		pass

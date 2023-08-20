@@ -1,7 +1,7 @@
 version: '3'
 services:
   big-bonga-clock:
-    image: docker.pkg.github.com/afonsofgarcia/bigbongaclock/big-bonga-clock:2
+    image: ghcr.io/afonsofgarcia/bigbongaclock/big-bonga-clock:3
     env_file:
       - .env
     
